@@ -13,84 +13,89 @@ module async_fifo #(
     output logic [DATA_WIDTH-1:0] rd_data,
     output logic                  rd_empty
 );
+  // your code here
 
-  // Pointer width: $clog2(DEPTH)+1 bits to allow full/empty distinction
-  localparam PTR_WIDTH = $clog2(DEPTH) + 1;
+  // pointer width
+  localparam int PTR_W = $clog2(DEPTH);
 
-  // Fifo
-  logic [DATA_WIDTH-1:0] mem [0:DEPTH-1];
+  // fifo
+  logic [DATA_WIDTH-1:0] fifo [0:DEPTH-1];
 
-  // Write domain registers
-  logic [PTR_WIDTH-1:0] wr_ptr_bin;
-  logic [PTR_WIDTH-1:0] wr_ptr_gray;
-  logic [PTR_WIDTH-1:0] rd_ptr_gray_sync1, rd_ptr_gray_sync2;
+  // binary pointers
+  logic [PTR_W:0] bin_wr_ptr, bin_rd_ptr; // extra bit for wrap-around
 
-  // Read domain registers
-  logic [PTR_WIDTH-1:0] rd_ptr_bin;
-  logic [PTR_WIDTH-1:0] rd_ptr_gray;
-  logic [PTR_WIDTH-1:0] wr_ptr_gray_sync1, wr_ptr_gray_sync2;
+  // gray pointers
+  logic [PTR_W:0] gray_wr_ptr, gray_rd_ptr;
+
+  // synchronised pointers
+  logic [PTR_W:0] sync_wr_ptr1, sync_wr_ptr2, sync_rd_ptr1, sync_rd_ptr2;
 
   // Write domain
-  always_ff @(posedge wr_clk or negedge wr_rst_n) begin
-    if (!wr_rst_n) begin
-      wr_ptr_bin        <= '0;
-      wr_ptr_gray       <= '0;
-      rd_ptr_gray_sync1 <= '0;
-      rd_ptr_gray_sync2 <= '0;
-      wr_full           <= 1'b0;
-    end else begin
-      // 2-FF synchronizer: capture read-domain gray pointer into write domain
-      rd_ptr_gray_sync1 <= rd_ptr_gray;
-      rd_ptr_gray_sync2 <= rd_ptr_gray_sync1;
+  always_ff @(posedge wr_clk, negedge wr_rst_n) begin
+    if(!wr_rst_n) begin
+      wr_full       <=  '0;
+      bin_wr_ptr    <=  '0;
+      gray_wr_ptr   <=  '0;
+      sync_rd_ptr1  <=  '0;
+      sync_rd_ptr2  <=  '0;
+    end
+    else begin
+      // 2-flop synchronizer
 
-      if (wr_en && !wr_full) begin
+      sync_rd_ptr1 <=  gray_rd_ptr;
+      sync_rd_ptr2 <=  sync_rd_ptr1;
 
-        mem[wr_ptr_bin[$clog2(DEPTH)-1:0]] <= wr_data;
-        wr_ptr_bin  <= wr_ptr_bin + 1'b1;
+      if(wr_en && ~wr_full) begin
+        // write condition
 
-        // Gray code of the *new* pointer (after increment)
-        wr_ptr_gray <= (wr_ptr_bin + 1'b1) ^ ((wr_ptr_bin + 1'b1) >> 1);
+        fifo[bin_wr_ptr]  <=  wr_data;
 
-      end 
+        // bin + gray progession
+
+        bin_wr_ptr    <=  bin_wr_ptr  + 1;
+        gray_wr_ptr   <=  (bin_wr_ptr + 1) ^ (bin_wr_ptr + 1) >> 1;
+      end
       else begin
-        // Keep gray pointer in sync with binary pointer even when not writing
-        wr_ptr_gray <= wr_ptr_bin ^ (wr_ptr_bin >> 1);
+        // gray if not written
+        gray_wr_ptr   <=  bin_wr_ptr ^ bin_wr_ptr >> 1;
       end
 
-      // Full: Use a pessimistic full if the inverted top 2 bits of the write gray pointer (+ rest of pointer) equal sync read gray pointer
-      wr_full <= ({~wr_ptr_gray[PTR_WIDTH-1],
-                   ~wr_ptr_gray[PTR_WIDTH-2],
-                    wr_ptr_gray[PTR_WIDTH-3:0]} == rd_ptr_gray_sync2);
+      // full condition
+
+      wr_full <=  ({~gray_wr_ptr[PTR_W:PTR_W-1], gray_wr_ptr[PTR_W-2:0]} == sync_rd_ptr2);
     end
   end
 
   // Read domain
-  always_ff @(posedge rd_clk or negedge rd_rst_n) begin
-    if (!rd_rst_n) begin
-      rd_ptr_bin        <= '0;
-      rd_ptr_gray       <= '0;
-      wr_ptr_gray_sync1 <= '0;
-      wr_ptr_gray_sync2 <= '0;
-      rd_empty          <= 1'b1;
-      rd_data           <= '0;
-    end else begin
-      // 2-FF synchronizer: capture write-domain gray pointer into read domain
-      wr_ptr_gray_sync1 <= wr_ptr_gray;
-      wr_ptr_gray_sync2 <= wr_ptr_gray_sync1;
+  always_ff @(posedge rd_clk, negedge rd_rst_n) begin
+    if(!rd_rst_n) begin
+      rd_empty      <=  1'b1;
+      bin_rd_ptr    <=  '0;
+      gray_rd_ptr   <=  '0;
+      sync_wr_ptr1  <=  '0;
+      sync_wr_ptr2  <=  '0;
+    end
+    else begin
+      // 2-flop synchronizer
 
-      if (rd_en && !rd_empty) begin
+      sync_wr_ptr1  <=  gray_wr_ptr;
+      sync_wr_ptr2  <=  sync_wr_ptr1;
 
-        rd_data    <= mem[rd_ptr_bin[$clog2(DEPTH)-1:0]];
-        rd_ptr_bin <= rd_ptr_bin + 1'b1;
+      // read condition
+      if(rd_en && ~rd_empty) begin
+      
+        rd_data     <=  fifo[bin_rd_ptr];
 
-        rd_ptr_gray <= (rd_ptr_bin + 1'b1) ^ ((rd_ptr_bin + 1'b1) >> 1);
+        // bin + gray progression
+        bin_rd_ptr  <=  bin_rd_ptr + 1;
+        gray_rd_ptr <=  (bin_rd_ptr + 1) ^ (bin_rd_ptr + 1) >> 1;
       end
       else begin
-        rd_ptr_gray <= rd_ptr_bin ^ (rd_ptr_bin >> 1);
+        // gray not read
+        gray_rd_ptr <=  bin_rd_ptr ^ bin_rd_ptr >> 1;
       end
-
-      // Empty: synchronized write gray pointer equals read gray pointer
-      rd_empty <= (wr_ptr_gray_sync2 == rd_ptr_gray);
+      // empty condition
+      rd_empty  <=  (gray_rd_ptr == sync_wr_ptr2);
     end
   end
 
