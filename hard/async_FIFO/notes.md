@@ -20,3 +20,4 @@ empty = rd_ptr_gray == sync_wr_ptr_gray
 
 - Remember that gray code of other pointers is required to be passed in a 2-flop synchroniser for metastability
 - The gray code pointers must be reset/assigned in the exact same domain (i.e. sync pointers for read in write domain)
+- Remember that the pointers need to have **N+1 length, where N is the fifo depth** to ensure that the wrap around logic can be used
