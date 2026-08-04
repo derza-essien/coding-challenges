@@ -35,4 +35,8 @@ module div_by_five (
 
 assign dout = (current == S0) & ready;
 
+`ifdef FORMAL
+`include "div_by_five_tb.svh"
+`endif
+
 endmodule

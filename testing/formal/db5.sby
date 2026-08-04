@@ -1,0 +1,21 @@
+[tasks]
+prove
+cover
+
+[options]
+prove:  mode prove
+prove:  depth 10
+
+cover:  mode cover
+cover:  depth 10
+
+[engines]
+smtbmc
+
+[script]
+read -formal -I. div_by_five.sv
+prep -top div_by_five
+
+[files]
+../../medium/divisble_by_5/div_by_five.sv
+../tb/div_by_five_tb.svh
