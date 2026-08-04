@@ -1,0 +1,8 @@
+# running in wrap_counter/src/
+read -sv wrap_counter.sv
+prep -top wrap_counter
+
+hierarchy -smtcheck
+rename -witness
+write_jny -no-connections ../model/design.json
+write_rtlil ../model/design.il

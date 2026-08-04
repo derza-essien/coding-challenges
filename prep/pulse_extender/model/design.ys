@@ -1,0 +1,8 @@
+# running in pulse_extender/src/
+read -sv pulse_extender.sv
+prep -top pulse_extender
+
+hierarchy -smtcheck
+rename -witness
+write_jny -no-connections ../model/design.json
+write_rtlil ../model/design.il

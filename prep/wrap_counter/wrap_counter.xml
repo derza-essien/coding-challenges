@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+<testsuite timestamp="2026-08-04T13:22:55" hostname="dkeL" package="wrap_counter" id="0" name="default" tests="0" errors="0" failures="0" time="0" skipped="0">
+<properties>
+<property name="os" value="Linux"/>
+<property name="expect" value="PASS"/>
+<property name="status" value="PASS"/>
+</properties>
+<testcase classname="default" name="build execution" time="0">
+</testcase>
+<system-out>SBY 13:22:55 [wrap_counter] Removing directory '/home/dke24/coding-challenges/prep/wrap_counter'.
+SBY 13:22:55 [wrap_counter] Copy '/home/dke24/coding-challenges/prep/wrap_counter.sv' to '/home/dke24/coding-challenges/prep/wrap_counter/src/wrap_counter.sv'.
+SBY 13:22:55 [wrap_counter] Copy '/home/dke24/coding-challenges/prep/wrap_counter_test.svh' to '/home/dke24/coding-challenges/prep/wrap_counter/src/wrap_counter_test.svh'.
+SBY 13:22:55 [wrap_counter] engine_0: smtbmc boolector
+SBY 13:22:55 [wrap_counter] base: starting process &quot;cd wrap_counter/src; yosys -ql ../model/design.log ../model/design.ys&quot;
+SBY 13:22:55 [wrap_counter] base: finished (returncode=0)
+SBY 13:22:55 [wrap_counter] prep: starting process &quot;cd wrap_counter/model; yosys -ql design_prep.log design_prep.ys&quot;
+SBY 13:22:55 [wrap_counter] prep: finished (returncode=0)
+SBY 13:22:55 [wrap_counter] smt2: starting process &quot;cd wrap_counter/model; yosys -ql design_smt2.log design_smt2.ys&quot;
+SBY 13:22:55 [wrap_counter] smt2: finished (returncode=0)
+SBY 13:22:55 [wrap_counter] engine_0.basecase: starting process &quot;cd wrap_counter; yosys-smtbmc -s boolector --presat --unroll --noprogress -t 20  --append 0 --dump-vcd engine_0/trace.vcd --dump-yw engine_0/trace.yw --dump-vlogtb engine_0/trace_tb.v --dump-smtc engine_0/trace.smtc model/design_smt2.smt2&quot;
+SBY 13:22:55 [wrap_counter] engine_0.induction: starting process &quot;cd wrap_counter; yosys-smtbmc -s boolector --presat --unroll -i --noprogress -t 20  --append 0 --dump-vcd engine_0/trace_induct.vcd --dump-yw engine_0/trace_induct.yw --dump-vlogtb engine_0/trace_induct_tb.v --dump-smtc engine_0/trace_induct.smtc model/design_smt2.smt2&quot;
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Solver: boolector
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 0..
+SBY 13:22:55 [wrap_counter] engine_0.induction: ##   0:00:00  Solver: boolector
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 0..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 1..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 1..
+SBY 13:22:55 [wrap_counter] engine_0.induction: ##   0:00:00  Trying induction in step 20..
+SBY 13:22:55 [wrap_counter] engine_0.induction: ##   0:00:00  Temporal induction successful.
+SBY 13:22:55 [wrap_counter] engine_0.induction: ##   0:00:00  Status: passed
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 2..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 2..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 3..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 3..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 4..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 4..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 5..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 5..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 6..
+SBY 13:22:55 [wrap_counter] engine_0.induction: finished (returncode=0)
+SBY 13:22:55 [wrap_counter] engine_0.induction: Status returned by engine for induction: pass
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 6..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 7..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 7..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 8..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 8..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 9..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 9..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 10..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 10..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 11..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 11..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 12..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 12..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 13..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 13..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 14..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 14..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 15..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 15..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 16..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 16..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 17..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 17..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 18..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 18..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assumptions in step 19..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Checking assertions in step 19..
+SBY 13:22:55 [wrap_counter] engine_0.basecase: ##   0:00:00  Status: passed
+SBY 13:22:55 [wrap_counter] engine_0.basecase: finished (returncode=0)
+SBY 13:22:55 [wrap_counter] engine_0.basecase: Status returned by engine for basecase: pass
+SBY 13:22:55 [wrap_counter] summary: Elapsed clock time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 13:22:55 [wrap_counter] summary: Elapsed process time [H:MM:SS (secs)]: 0:00:00 (0)
+SBY 13:22:55 [wrap_counter] summary: engine_0 (smtbmc boolector) returned pass for basecase
+SBY 13:22:55 [wrap_counter] summary: engine_0 (smtbmc boolector) returned pass for induction
+SBY 13:22:55 [wrap_counter] summary: engine_0 did not produce any traces
+SBY 13:22:55 [wrap_counter] summary: successful proof by k-induction.
+SBY 13:22:55 [wrap_counter] DONE (PASS, rc=0)
+</system-out>
+<system-err>
+</system-err>
+</testsuite>
+</testsuites>

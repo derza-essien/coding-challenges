@@ -1,0 +1,119 @@
+{
+  "$schema": "https://raw.githubusercontent.com/YosysHQ/yosys/main/misc/jny.schema.json",
+  "generator": "Yosys 0.67+137 (git sha1 41a4b5a03-dirty, Release, Clang /usr/bin/clang++ 21.1.8)",
+  "version": "0.0.1",
+  "invocation": "write_jny -no-connections ../model/design.json ",
+  "features": ["attributes", "properties"],
+  "modules": [
+      {
+        "name": "delay_pipe",
+        "cell_sorts": [
+          {
+            "type": "$mux",
+            "ports": [
+                {
+                  "name": "A",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "B",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "S",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "Y",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$procmux$3",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "delay_pipe.sv:13.13-13.16|delay_pipe.sv:13.9-21.12"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procmux$5",
+                  "attributes": {
+                    "src": "delay_pipe.sv:18.17-18.25|delay_pipe.sv:18.13-20.16"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000001000"
+                  }
+                },
+                {
+                  "name": "$procmux$8",
+                  "attributes": {
+                    "full_case": "00000000000000000000000000000001",
+                    "src": "delay_pipe.sv:13.13-13.16|delay_pipe.sv:13.9-21.12"
+                  },
+                  "parameters": {
+                    "WIDTH": "00000000000000000000000000001000"
+                  }
+                }
+            ]
+          },
+          {
+            "type": "$dff",
+            "ports": [
+                {
+                  "name": "CLK",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "D",
+                  "direction": "io",
+                  "range": [0, 0]
+                },
+                {
+                  "name": "Q",
+                  "direction": "",
+                  "range": [0, 0]
+                }
+            ],
+            "cells": [
+                {
+                  "name": "$procdff$10",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "delay_pipe.sv:12.5-22.8"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000000001"
+                  }
+                },
+                {
+                  "name": "$procdff$11",
+                  "attributes": {
+                    "always_ff": "00000000000000000000000000000001",
+                    "src": "delay_pipe.sv:12.5-22.8"
+                  },
+                  "parameters": {
+                    "CLK_POLARITY": "1",
+                    "WIDTH": "00000000000000000000000000001000"
+                  }
+                }
+            ]
+          }
+        ],
+        "attributes": {
+            "hdlname": "delay_pipe",
+            "top": "00000000000000000000000000000001",
+            "src": "delay_pipe.sv:3.1-29.10"
+        }
+      }
+  ]
+}

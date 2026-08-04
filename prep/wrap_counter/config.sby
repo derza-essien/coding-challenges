@@ -1,0 +1,14 @@
+[options]
+mode prove
+depth 20
+
+[engines]
+smtbmc boolector
+
+[script]
+read -sv wrap_counter.sv
+prep -top wrap_counter
+
+[files]
+wrap_counter.sv
+wrap_counter_test.svh

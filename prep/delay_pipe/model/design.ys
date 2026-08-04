@@ -1,0 +1,10 @@
+# running in delay_pipe/src/
+# Read the SystemVerilog file (native parser)
+read -sv delay_pipe.sv
+# Prep the top-level module
+prep -top delay_pipe
+
+hierarchy -smtcheck
+rename -witness
+write_jny -no-connections ../model/design.json
+write_rtlil ../model/design.il

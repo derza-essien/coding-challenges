@@ -1,0 +1,19 @@
+[options]
+mode prove
+# Check up to 15 clock cycles deep
+depth 15 
+
+[engines]
+# smtbmc is the standard bounded model checker engine
+# boolector is an excellent, fast solver for bit-vector logic
+smtbmc boolector
+
+[script]
+# Read the SystemVerilog file (native parser)
+read -sv delay_pipe.sv
+# Prep the top-level module
+prep -top delay_pipe
+
+[files]
+delay_pipe.sv
+delay_pipe_test.svh

@@ -1,0 +1,14 @@
+[options]
+mode prove
+depth 15
+
+[engines]
+smtbmc boolector
+
+[script]
+read -sv pulse_extender.sv
+prep -top pulse_extender
+
+[files]
+pulse_extender.sv
+pulse_extender_test.svh
